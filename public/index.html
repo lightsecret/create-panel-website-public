@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Panel Pterodactyl</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: radial-gradient(circle at top left, #0d0d0d, #121212);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      color: white;
+    }
+
+    .bg-blur {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: #6a5af9;
+      filter: blur(120px);
+      z-index: 0;
+      top: -80px;
+      right: -80px;
+    }
+
+    .form-wrapper {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 24px;
+      max-width: 340px;
+      width: 100%;
+      box-shadow: 0 0 16px rgba(106, 90, 249, 0.25);
+      animation: fadeUp 0.8s ease-out;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin-bottom: 1.4rem;
+      color: #ffffff;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #6a5af9;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      background: linear-gradient(to right, #6a5af9, #856dff);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(106, 90, 249, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(106, 90, 249, 0.6);
+    }
+
+    pre {
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 12px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      color: #ddd;
+      font-size: 13px;
+      border-left: 3px solid #6a5af9;
+    }
+
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      top: 0;
+      left: 0;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    @media screen and (max-width: 400px) {
+      .form-wrapper {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      input, button {
+        font-size: 13px;
+        padding: 9px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blur"></div>
+  <div class="particles">
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <div class="form-wrapper">
+    <h1>🚀 Buat Panel</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="number" id="ram" placeholder="RAM (MB)">
+    <input type="number" id="disk" placeholder="Disk (MB)">
+    <input type="number" id="cpu" placeholder="CPU (%)">
+    <button onclick="createPanel()">Create</button>
+    <pre id="result"></pre>
+  </div>
+
+  <script>
+    async function createPanel() {
+      const username = document.getElementById('username').value;
+      const ram = document.getElementById('ram').value;
+      const disk = document.getElementById('disk').value;
+      const cpu = document.getElementById('cpu').value;
+
+      if (!username || !ram || !disk || !cpu) {
+        alert('⚠️ Semua field wajib diisi!');
+        return;
+      }
+
+      const url = `https://apikey.sazxofficial.web.id/api/pterodactyl/create?username=${encodeURIComponent(username)}&ram=${encodeURIComponent(ram)}&disk=${encodeURIComponent(disk)}&cpu=${encodeURIComponent(cpu)}&eggid=15&nestid=5&loc=1&domain=https://lightscret.markethosting.web.id&ptla=ptla_lqfR78Y2LCeoVx8s8vuZVdOk92iaW2N87l6hvqgSze0&ptlc=ptlc_683wO8MCbzD7wL2ASXXDMbkPOUl2mh7mcp3IK0QTkam`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const formatted = `( Berikut Data Panel Anda 🚀 )
+Username: ${data.username}
+Password: ${data.password}
+Login: ${data.domain}`;
+
+        document.getElementById('result').textContent = formatted;
+      } catch (err) {
+        document.getElementById('result').textContent = '❌ Gagal mengambil data.';
+      }
+    }
+
+    // Particle background
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particlesArray = [];
+    const numParticles = 80;
+
+    for (let i = 0; i < numParticles; i++) {
+      particlesArray.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let p of particlesArray) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.12)";
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+  </script>
+
+</body>
+</html>

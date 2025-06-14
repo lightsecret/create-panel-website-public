@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login Database</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(91, 75, 255, 0.5);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      width: 90%;
+      max-width: 400px;
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .login-container input[type="password"]::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .login-container input[type="password"]:focus {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 14px;
+      background: #5b4bff;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 10px #5b4bff80;
+    }
+
+    .login-container button:hover {
+      background: #483ce0;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* Partikel animasi background (opsional) */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="login-container">
+  <h2>Login Database</h2>
+  <input type="password" id="password" placeholder="Masukkan password">
+  <button onclick="checkPassword()">Login</button>
+  <div class="error-message" id="errorMsg">Password salah, bro!</div>
+</div>
+
+<script>
+  function checkPassword() {
+    const input = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMsg");
+    if (input === "lightsecret616") {
+      window.location.href = "index.html"; // ganti ke link lu
+    } else {
+      errorMsg.style.display = "block";
+    }
+  }
+
+  // Buat partikel random
+  const particlesContainer = document.getElementById("particles");
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${8 + Math.random() * 8}s`;
+    particle.style.opacity = `${Math.random()}`;
+    particlesContainer.appendChild(particle);
+  }
+</script>
+
+</body>
+</html>
